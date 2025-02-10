@@ -64,7 +64,7 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body&gt;&#xa;&lt;h2&gt;ImageTools - v1.1&lt;/h2&gt;&#xa;&lt;p&gt;A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/claudio-santos/ImageTools&quot;&gt;https://github.com/claudio-santos/ImageTools&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;Third-Party Libraries:&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/rkalla/imgscalr&quot;&gt;imgscalr - Java Image-Scaling Library&lt;/a&gt; - v4.2 &lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://haraldk.github.io/TwelveMonkeys&quot;&gt;TwelveMonkeys ImageIO&lt;/a&gt; - v3.12.0&lt;/p&gt;&#xa;&lt;/body&gt;&lt;/html&gt;"/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body&gt;&#xa;&lt;h2&gt;ImageTools - v1.1&lt;/h2&gt;&#xa;&lt;p&gt;A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/claudio-santos/ImageTools&quot;&gt;https://github.com/claudio-santos/ImageTools&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;Third-Party:&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/rkalla/imgscalr&quot;&gt;imgscalr - Java Image-Scaling Library&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://haraldk.github.io/TwelveMonkeys&quot;&gt;TwelveMonkeys ImageIO&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/KDE/oxygen-icons&quot;&gt;Oxygen Icons&lt;/a&gt;&lt;/p&gt;&#xa;&lt;/body&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -478,6 +478,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menOpen">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/document-open.png"/>
                 </Property>
@@ -490,6 +493,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menOpenBase64">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+O"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/document-import.png"/>
                 </Property>
@@ -504,6 +510,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menSaveNew">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+S"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/document-save.png"/>
                 </Property>
@@ -516,6 +525,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menSaveAs">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/document-save-as.png"/>
                 </Property>
@@ -530,6 +542,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menExit">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+X"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/application-exit.png"/>
                 </Property>
@@ -588,11 +603,14 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menAbout">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+H"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/x16/help-about.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="97"/>
-                <Property name="text" type="java.lang.String" value="About Image Tools"/>
+                <Property name="text" type="java.lang.String" value="About ImageTools"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menAboutActionPerformed"/>

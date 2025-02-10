@@ -553,7 +553,7 @@ public class Gui extends javax.swing.JFrame {
 
         jEditorPane1.setEditable(false);
         jEditorPane1.setContentType("text/html"); // NOI18N
-        jEditorPane1.setText("<html><body>\n<h2>ImageTools - v1.1</h2>\n<p>A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.</p>\n<p><a href=\"https://github.com/claudio-santos/ImageTools\">https://github.com/claudio-santos/ImageTools</a></p>\n<p>Third-Party Libraries:</p>\n<p><a href=\"https://github.com/rkalla/imgscalr\">imgscalr - Java Image-Scaling Library</a> - v4.2 </p>\n<p><a href=\"https://haraldk.github.io/TwelveMonkeys\">TwelveMonkeys ImageIO</a> - v3.12.0</p>\n</body></html>");
+        jEditorPane1.setText("<html><body>\n<h2>ImageTools - v1.1</h2>\n<p>A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.</p>\n<p><a href=\"https://github.com/claudio-santos/ImageTools\">https://github.com/claudio-santos/ImageTools</a></p>\n<p>Third-Party:</p>\n<p><a href=\"https://github.com/rkalla/imgscalr\">imgscalr - Java Image-Scaling Library</a></p>\n<p><a href=\"https://haraldk.github.io/TwelveMonkeys\">TwelveMonkeys ImageIO</a></p>\n<p><a href=\"https://github.com/KDE/oxygen-icons\">Oxygen Icons</a></p>\n</body></html>");
         jScrollPane1.setViewportView(jEditorPane1);
 
         jPanel14.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -1246,6 +1246,7 @@ public class Gui extends javax.swing.JFrame {
         jMenu1.setMnemonic('f');
         jMenu1.setText("File");
 
+        menOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/document-open.png"))); // NOI18N
         menOpen.setMnemonic('o');
         menOpen.setText("Open");
@@ -1256,6 +1257,7 @@ public class Gui extends javax.swing.JFrame {
         });
         jMenu1.add(menOpen);
 
+        menOpenBase64.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menOpenBase64.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/document-import.png"))); // NOI18N
         menOpenBase64.setMnemonic('p');
         menOpenBase64.setText("Open BASE64");
@@ -1267,6 +1269,7 @@ public class Gui extends javax.swing.JFrame {
         jMenu1.add(menOpenBase64);
         jMenu1.add(jSeparator1);
 
+        menSaveNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menSaveNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/document-save.png"))); // NOI18N
         menSaveNew.setMnemonic('s');
         menSaveNew.setText("Save New");
@@ -1277,6 +1280,7 @@ public class Gui extends javax.swing.JFrame {
         });
         jMenu1.add(menSaveNew);
 
+        menSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/document-save-as.png"))); // NOI18N
         menSaveAs.setMnemonic('a');
         menSaveAs.setText("Save As");
@@ -1288,6 +1292,7 @@ public class Gui extends javax.swing.JFrame {
         jMenu1.add(menSaveAs);
         jMenu1.add(jSeparator2);
 
+        menExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/application-exit.png"))); // NOI18N
         menExit.setMnemonic('e');
         menExit.setText("Exit");
@@ -1330,9 +1335,10 @@ public class Gui extends javax.swing.JFrame {
         jMenu2.setMnemonic('h');
         jMenu2.setText("Help");
 
+        menAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/help-about.png"))); // NOI18N
         menAbout.setMnemonic('a');
-        menAbout.setText("About Image Tools");
+        menAbout.setText("About ImageTools");
         menAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menAboutActionPerformed(evt);
