@@ -10,28 +10,35 @@ import java.util.Properties;
  */
 public class Config {
 
-    public static final String PATH = "config.properties";
+    private static final String PATH = "config.properties";
 
-    public static String get(String key) {
-        String res = "";
-        try {
-            Properties p = new Properties();
-            p.load(new FileInputStream(PATH));
-            res = p.getProperty(key);
+    private static Properties load() {
+        Properties p = new Properties();
+        try (FileInputStream fis = new FileInputStream(PATH)) {
+            p.load(fis);
         } catch (Exception e) {
             System.out.println(e);
         }
-        return res;
+        return p;
+    }
+
+    private static void store(Properties p) {
+        try (FileOutputStream fos = new FileOutputStream(PATH)) {
+            p.store(fos, null);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static String get(String key) {
+        Properties p = load();
+        return p.getProperty(key);
     }
 
     public static void put(String key, String value) {
-        try {
-            Properties p = new Properties();
-            p.put(key, value);
-            p.store(new FileOutputStream(PATH), null);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        Properties p = load();
+        p.put(key, value);
+        store(p);
     }
 
 }

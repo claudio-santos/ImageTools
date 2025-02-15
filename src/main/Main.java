@@ -12,6 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Main {
 
+    public static String title = "ImageTools";
+    public static String version = "1.2";
+    public static String titleVersion = title + " " + version;
+
     public static Image icon = new ImageIcon(Main.class.getResource("/icons/icon.png")).getImage();
 
     public static void main(String[] args) {

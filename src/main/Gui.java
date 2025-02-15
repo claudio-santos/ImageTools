@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -29,7 +30,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -57,7 +57,7 @@ public class Gui extends javax.swing.JFrame {
 
     public Gui() {
         initComponents();
-        setSize(800, 500);
+        setSize(900, 600);
         setLocationRelativeTo(null);
 
         diaAbout.pack();
@@ -132,7 +132,11 @@ public class Gui extends javax.swing.JFrame {
 
         imageDrag();
 
-        jEditorPane1.addHyperlinkListener(new HyperlinkListener() {
+        for (Scalr.Method x : Scalr.Method.values()) {
+            comQuality.addItem(x);
+        }
+
+        ediAbout.addHyperlinkListener(new HyperlinkListener() {
             @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -182,7 +186,10 @@ public class Gui extends javax.swing.JFrame {
         texImagePath.setText(image.getPath());
         texImageW.setText(String.valueOf(image.getImage().getWidth()));
         texImageH.setText(String.valueOf(image.getImage().getHeight()));
-        labImage.setIcon(new ImageIcon(image.getImage()));
+        ScaledIcon.set(labImage, image.getImage());
+        if (!image.getPath().isBlank()) {
+            Config.put("DIR", image.getPath());
+        }
     }
 
     private void imageCopy() {
@@ -383,18 +390,20 @@ public class Gui extends javax.swing.JFrame {
 
     private void save(String file, int quality) {
         try {
-            if (new File(file).exists()) {
-                //exists
+            File f = new File(file);
+            if (f.exists()) {
+                if (JOptionPane.showConfirmDialog(diaSaveAs, "The file exists. Do you want to overwrite?", "Save", JOptionPane.ERROR_MESSAGE) != JOptionPane.YES_OPTION) {
+                    return;
+                }
             }
-            if (file.endsWith("jpg")) {
+            if (file.endsWith(".jpg")) {
                 saveJpg(file, (float) quality / 100f);
             } else {
                 savePng(file);
             }
+            setImage(new MyImage(ImageIO.read(f), f.getAbsolutePath(), f));
+            undoRedo.action(myImage);
             showPopup("File saved: " + file);
-            if (myImage.isPathBlank()) {
-                Desktop.getDesktop().open(new File(new File(file).getAbsoluteFile().getParent()));
-            }
         } catch (IOException e) {
             System.out.println(e);
             showPopup("Failed to save file: " + file);
@@ -402,8 +411,16 @@ public class Gui extends javax.swing.JFrame {
     }
 
     private void actionOpen() {
+        File f;
+        try {
+            f = new File(Config.get("DIR"));
+            filOpen.setCurrentDirectory(f.getParentFile());
+            filOpen.setSelectedFile(f);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         if (filOpen.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File f = filOpen.getSelectedFile();
+            f = filOpen.getSelectedFile();
             try {
                 setImage(new MyImage(ImageIO.read(f), f.getAbsolutePath(), f));
                 undoRedo.action(myImage);
@@ -442,6 +459,21 @@ public class Gui extends javax.swing.JFrame {
         diaSaveAs.setVisible(true);
     }
 
+    private void actionOpenDir() {
+        String dir = "";
+        if (myImage.getImage() == null) {
+            dir = new File(Config.get("DIR")).getParent();
+        }
+        if (!myImage.isPathBlank()) {
+            dir = new File(myImage.getPath()).getParent();
+        }
+        try {
+            Desktop.getDesktop().open(new File(dir));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     private void actionExit() {
         System.exit(0);
     }
@@ -460,7 +492,7 @@ public class Gui extends javax.swing.JFrame {
         diaAbout = new javax.swing.JDialog(this, true);
         jPanel14 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        ediAbout = new javax.swing.JEditorPane();
         jPanel15 = new javax.swing.JPanel();
         butDiaAboutBack = new javax.swing.JButton();
         diaSaveAs = new javax.swing.JDialog(this, true);
@@ -494,6 +526,7 @@ public class Gui extends javax.swing.JFrame {
         butSaveAs = new javax.swing.JButton();
         butUndo = new javax.swing.JButton();
         butRedo = new javax.swing.JButton();
+        butOpenDir = new javax.swing.JButton();
         butAbout = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pancrop = new javax.swing.JPanel();
@@ -521,6 +554,8 @@ public class Gui extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         texResizeW = new javax.swing.JFormattedTextField();
         texResizeH = new javax.swing.JFormattedTextField();
+        jPanel19 = new javax.swing.JPanel();
+        comQuality = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         butResizeApply = new javax.swing.JButton();
         scrImage = new javax.swing.JScrollPane();
@@ -551,10 +586,10 @@ public class Gui extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        jEditorPane1.setEditable(false);
-        jEditorPane1.setContentType("text/html"); // NOI18N
-        jEditorPane1.setText("<html><body>\n<h2>ImageTools - v1.1</h2>\n<p>A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.</p>\n<p><a href=\"https://github.com/claudio-santos/ImageTools\">https://github.com/claudio-santos/ImageTools</a></p>\n<p>Third-Party:</p>\n<p><a href=\"https://github.com/rkalla/imgscalr\">imgscalr - Java Image-Scaling Library</a></p>\n<p><a href=\"https://haraldk.github.io/TwelveMonkeys\">TwelveMonkeys ImageIO</a></p>\n<p><a href=\"https://github.com/KDE/oxygen-icons\">Oxygen Icons</a></p>\n</body></html>");
-        jScrollPane1.setViewportView(jEditorPane1);
+        ediAbout.setEditable(false);
+        ediAbout.setContentType("text/html"); // NOI18N
+        ediAbout.setText("<html><body>\n<h2>ImageTools</h2>\n<p>A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.</p>\n<p><a href=\"https://github.com/claudio-santos/ImageTools\">https://github.com/claudio-santos/ImageTools</a></p>\n<p>Third-Party:</p>\n<p><a href=\"https://github.com/rkalla/imgscalr\">imgscalr - Java Image-Scaling Library</a></p>\n<p><a href=\"https://haraldk.github.io/TwelveMonkeys\">TwelveMonkeys ImageIO</a></p>\n<p><a href=\"https://github.com/KDE/oxygen-icons\">Oxygen Icons</a></p>\n</body></html>");
+        jScrollPane1.setViewportView(ediAbout);
 
         jPanel14.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -816,7 +851,7 @@ public class Gui extends javax.swing.JFrame {
         filOpen.setFileFilter(new FileNameExtensionFilter("Imagens", "bmp", "gif", "jpeg", "jpg", "png"));
 
         filSaveAs.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
-        filSaveAs.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+        filSaveAs.setFileFilter(new FileNameExtensionFilter("Imagens", "bmp", "gif", "jpeg", "jpg", "png"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(Main.icon);
@@ -847,7 +882,7 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Image Tools");
+        jLabel1.setText(Main.title);
 
         butSaveAs.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         butSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x32/document-save-as.png"))); // NOI18N
@@ -874,6 +909,13 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        butOpenDir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/document-open-folder.png"))); // NOI18N
+        butOpenDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butOpenDirActionPerformed(evt);
+            }
+        });
+
         butAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/help-about.png"))); // NOI18N
         butAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -889,6 +931,8 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(butOpenDir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(butAbout)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -913,11 +957,12 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(butOpenDir)
                     .addComponent(jLabel1)
-                    .addComponent(butAbout)
                     .addComponent(butUndo)
-                    .addComponent(butRedo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butRedo)
+                    .addComponent(butAbout))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(butSaveAs)
                     .addComponent(butOpen)
@@ -1137,6 +1182,25 @@ public class Gui extends javax.swing.JFrame {
 
         panresize.add(jPanel10);
 
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comQuality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comQuality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        panresize.add(jPanel19);
+
         butResizeApply.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         butResizeApply.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x32/dialog-ok-apply.png"))); // NOI18N
         butResizeApply.setText("Apply");
@@ -1338,7 +1402,7 @@ public class Gui extends javax.swing.JFrame {
         menAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x16/help-about.png"))); // NOI18N
         menAbout.setMnemonic('a');
-        menAbout.setText("About ImageTools");
+        menAbout.setText("About " + Main.titleVersion);
         menAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menAboutActionPerformed(evt);
@@ -1442,7 +1506,7 @@ public class Gui extends javax.swing.JFrame {
 
         setImage(new MyImage(Scalr.resize(
                 myImage.getImage(),
-                Scalr.Method.AUTOMATIC,
+                (Scalr.Method) comQuality.getSelectedItem(),
                 mode,
                 Integer.parseInt(texResizeW.getText().trim()),
                 Integer.parseInt(texResizeH.getText().trim())
@@ -1478,23 +1542,22 @@ public class Gui extends javax.swing.JFrame {
 
     private void butSaveSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSaveSaveActionPerformed
         save(texSaveFilename.getText().trim(), Integer.parseInt(texSaveQuality.getText().trim()));
+        diaSaveAs.setVisible(false);
     }//GEN-LAST:event_butSaveSaveActionPerformed
 
     private void butSaveBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSaveBrowseActionPerformed
+        filSaveAs.setCurrentDirectory(myImage.getFile().getParentFile());
+        filSaveAs.setSelectedFile(myImage.getFile());
         if (filSaveAs.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File f = filSaveAs.getSelectedFile();
-            try {
-                texSaveFilename.setText(f.getAbsolutePath() + "\\" + myImage.getFile().getName());
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            String dir = filSaveAs.getSelectedFile().getAbsolutePath();
+            texSaveFilename.setText(dir);
+            Config.put("DIR", dir);
         }
     }//GEN-LAST:event_butSaveBrowseActionPerformed
 
-    private void butAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAboutActionPerformed
-        diaAbout.setLocationRelativeTo(this);
-        diaAbout.setVisible(true);
-    }//GEN-LAST:event_butAboutActionPerformed
+    private void butOpenDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butOpenDirActionPerformed
+        actionOpenDir();
+    }//GEN-LAST:event_butOpenDirActionPerformed
 
     private void butDiaAboutBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDiaAboutBackActionPerformed
         diaAbout.setVisible(false);
@@ -1552,6 +1615,11 @@ public class Gui extends javax.swing.JFrame {
         redo();
     }//GEN-LAST:event_menRedoActionPerformed
 
+    private void butAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAboutActionPerformed
+        diaAbout.setLocationRelativeTo(this);
+        diaAbout.setVisible(true);
+    }//GEN-LAST:event_butAboutActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butAbout;
     private javax.swing.JButton butCropApply;
@@ -1559,6 +1627,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JButton butOpen;
     private javax.swing.JButton butOpenBase64Cancel;
     private javax.swing.JButton butOpenBase64Open;
+    private javax.swing.JButton butOpenDir;
     private javax.swing.JButton butRedo;
     private javax.swing.JButton butResizeApply;
     private javax.swing.JButton butSaveAs;
@@ -1576,14 +1645,15 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox cheCropT;
     private javax.swing.JCheckBox cheCropTL;
     private javax.swing.JCheckBox cheCropTR;
+    private javax.swing.JComboBox<Scalr.Method> comQuality;
     private javax.swing.JDialog diaAbout;
     private javax.swing.JDialog diaOpenBase64;
     private javax.swing.JDialog diaSaveAs;
+    private javax.swing.JEditorPane ediAbout;
     private javax.swing.JFileChooser filOpen;
     private javax.swing.JFileChooser filSaveAs;
     private javax.swing.ButtonGroup groCrop;
     private javax.swing.ButtonGroup groResize;
-    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1602,6 +1672,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

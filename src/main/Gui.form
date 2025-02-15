@@ -60,11 +60,11 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JEditorPane" name="jEditorPane1">
+                <Component class="javax.swing.JEditorPane" name="ediAbout">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body&gt;&#xa;&lt;h2&gt;ImageTools - v1.1&lt;/h2&gt;&#xa;&lt;p&gt;A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/claudio-santos/ImageTools&quot;&gt;https://github.com/claudio-santos/ImageTools&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;Third-Party:&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/rkalla/imgscalr&quot;&gt;imgscalr - Java Image-Scaling Library&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://haraldk.github.io/TwelveMonkeys&quot;&gt;TwelveMonkeys ImageIO&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/KDE/oxygen-icons&quot;&gt;Oxygen Icons&lt;/a&gt;&lt;/p&gt;&#xa;&lt;/body&gt;&lt;/html&gt;"/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body&gt;&#xa;&lt;h2&gt;ImageTools&lt;/h2&gt;&#xa;&lt;p&gt;A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/claudio-santos/ImageTools&quot;&gt;https://github.com/claudio-santos/ImageTools&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;Third-Party:&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/rkalla/imgscalr&quot;&gt;imgscalr - Java Image-Scaling Library&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://haraldk.github.io/TwelveMonkeys&quot;&gt;TwelveMonkeys ImageIO&lt;/a&gt;&lt;/p&gt;&#xa;&lt;p&gt;&lt;a href=&quot;https://github.com/KDE/oxygen-icons&quot;&gt;Oxygen Icons&lt;/a&gt;&lt;/p&gt;&#xa;&lt;/body&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -465,7 +465,9 @@
     <Component class="javax.swing.JFileChooser" name="filSaveAs">
       <Properties>
         <Property name="dialogType" type="int" value="1"/>
-        <Property name="fileSelectionMode" type="int" value="1"/>
+        <Property name="fileFilter" type="javax.swing.filechooser.FileFilter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new FileNameExtensionFilter(&quot;Imagens&quot;, &quot;bmp&quot;, &quot;gif&quot;, &quot;jpeg&quot;, &quot;jpg&quot;, &quot;png&quot;)" type="code"/>
+        </Property>
       </Properties>
     </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
@@ -610,7 +612,9 @@
                   <Image iconType="3" name="/x16/help-about.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="97"/>
-                <Property name="text" type="java.lang.String" value="About ImageTools"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;About &quot; + Main.titleVersion" type="code"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menAboutActionPerformed"/>
@@ -712,6 +716,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
+                                  <Component id="butOpenDir" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="butAbout" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel1" max="32767" attributes="0"/>
@@ -738,12 +744,13 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="butOpenDir" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="butAbout" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="butUndo" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="butRedo" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="butAbout" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="14" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="butSaveAs" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="butOpen" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -793,7 +800,9 @@
                       <Font name="Segoe UI" size="14" style="3"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Image Tools"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Main.title" type="code"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="butSaveAs">
@@ -830,6 +839,16 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butRedoActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="butOpenDir">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/x16/document-open-folder.png"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butOpenDirActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="butAbout">
@@ -1209,6 +1228,41 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="0"/>
                           </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel19">
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="comQuality" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="comQuality" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JComboBox" name="comQuality">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="0"/>
+                            </Property>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Scalr.Method&gt;"/>
+                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>

@@ -10,8 +10,8 @@ import java.io.File;
 public class MyImage {
 
     private BufferedImage image;
-    private String path;
-    private File file;
+    private final String path;
+    private final File file;
 
     public MyImage(BufferedImage image, String path, File file) {
         this.image = image;
@@ -47,16 +47,8 @@ public class MyImage {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public File getFile() {
         return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 
 }
