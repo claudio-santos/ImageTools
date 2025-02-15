@@ -1,5 +1,5 @@
 <html><body>
-<h2>ImageTools - v1.1</h2>
+<h2>ImageTools</h2>
 <p>A straightforward and user-friendly program for easy image manipulation. You can directly drop or paste an image to open it.</p>
 <p><a href="https://github.com/claudio-santos/ImageTools">https://github.com/claudio-santos/ImageTools</a></p>
 <p>Third-Party:</p>
